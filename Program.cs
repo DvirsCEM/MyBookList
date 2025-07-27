@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Project.DatabaseUtilities;
@@ -32,16 +33,6 @@ class Program
         ╰──────────────────────────────────*/
         if (request.Name == "getItems")
         {
-          var Items = database.Items.ToList();
-          request.Respond(Items);
-        }
-        else if (request.Name == "addItem")
-        {
-          var (name, price) = request.GetParams<(string, double)>();
-          var Item = new Item(name, price);
-          database.Items.Add(Item);
-          database.SaveChanges();
-          request.Respond(Item.Id);
         }
         else
         {
@@ -55,20 +46,49 @@ class Program
       }
     }
   }
+
+  // static void 
 }
 
 
 class Database() : DatabaseCore("database")
 {
-  /*──────────────────────────────╮
-  │ Add your database tables here │
-  ╰──────────────────────────────*/
-  public DbSet<Item> Items { get; set; } = default!;
+  public DbSet<User> Users { get; set; } = default!;
+  public DbSet<Book> Books { get; set; } = default!;
+  public DbSet<Favorite> Favorites { get; set; } = default!;
 }
 
-class Item(string name, double price)
+class User(string id, string username, string password)
+{
+  [Key] public string Id { get; set; } = id;
+  public string Username { get; set; } = username;
+  public string Password { get; set; } = password;
+}
+
+class Book(
+  string title,
+  string author,
+  string imageSource,
+  string description,
+  string uploaderId
+)
 {
   [Key] public int Id { get; set; } = default!;
-  public string Name { get; set; } = name;
-  public double Price { get; set; } = price;
+  public string Title { get; set; } = title;
+  public string Author { get; set; } = author;
+  public string ImageSource { get; set; } = imageSource;
+  public string Description { get; set; } = description;
+  public string UploaderId { get; set; } = uploaderId;
+  [ForeignKey("UploaderId")] public User Uploader { get; set; } = default!;
+}
+
+class Favorite(string userId, int bookId)
+{
+  [Key] public int Id { get; set; } = default!;
+
+  public string UserId { get; set; } = userId;
+  [ForeignKey("UserId")] public User User { get; set; } = default!;
+
+  public int BookId { get; set; } = bookId;
+  [ForeignKey("BookId")] public Book Book { get; set; } = default!;
 }
