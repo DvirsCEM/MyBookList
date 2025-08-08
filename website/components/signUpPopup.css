@@ -1,0 +1,15 @@
+#containerDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#alertDiv {
+  color: red;
+  margin-top: 15px;
+}
+
+#submitButton {
+  margin-top: 15px;
+}
+

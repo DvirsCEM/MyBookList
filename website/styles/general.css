@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "rubik";
+  src: url("/website/fonts/Rubik.ttf");
+}
+
+@font-face {
+  font-family: "title";
+  src: url("/website/fonts/mal.ttf");
+}
+
+* {
+  font-family: "rubik";
+  user-select: none;
+}
+
+body {
+  margin: 0;
+}

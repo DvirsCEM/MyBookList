@@ -1,0 +1,17 @@
+#contentDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+#coverTd {
+  max-width: 190px;
+  display: flex;
+  flex-direction: column;
+}
+
+#coverImg {
+  max-width: 100px;
+}

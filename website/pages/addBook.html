@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/website/styles/general.css" />
+    <link rel="stylesheet" href="addBook.css" />
+    <title>Add Book</title>
+  </head>
+  <body>
+    <div id="bannerDiv"></div>
+
+    <div id="contentDiv">
+      <table>
+        <tr>
+          <td>Title:</td>
+          <td><input type="text" id="titleInput" /></td>
+        </tr>
+        <tr>
+          <td>Author:</td>
+          <td>
+            <input type="text" id="authorInput" list="authorsList" />
+          </td>
+        </tr>
+        <tr>
+          <td>Cover Image:</td>
+          <td id="coverTd">
+            <input type="file" id="coverInput" accept="image/*" />
+            <img id="coverImg" />
+          </td>
+        </tr>
+        <tr>
+          <td>Description:</td>
+          <td><textarea id="descInput"></textarea></td>
+        </tr>
+      </table>
+
+      <br />
+
+      <button id="addButton">Add Book</button>
+    </div>
+
+    <datalist id="authorsList"></datalist>
+
+    <script type="module" src="addBook.js"></script>
+  </body>
+</html>

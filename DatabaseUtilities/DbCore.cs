@@ -11,7 +11,7 @@ namespace Project.DatabaseUtilities;
 // Summary:
 // Represents the core database context for the application.
 // This class provides tools to manage the database schema.
-public class DatabaseCore : DbContext
+public class DbCore : DbContext
 {
   readonly string _name;
 
@@ -29,7 +29,7 @@ public class DatabaseCore : DbContext
   // Parameters:
   //   name:
   //     The name of the database.
-  public DatabaseCore(string name) : base()
+  public DbCore(string name) : base()
   {
     _name = name;
 
