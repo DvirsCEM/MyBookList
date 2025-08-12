@@ -1,27 +1,24 @@
 import { send } from "../clientUtilities";
-import { createAddBookPopup } from "../components/addBookPopup";
+import { createAddBookButton } from "../components/addBookButton";
 import { createBanner } from "../components/banner";
-import { create } from "../componentUtilities";
-import { getUserSecret } from "../tools/funcs";
+import { createShelf } from "../components/shelf";
+import { getUserId } from "../tools/funcs";
+import { Book } from "../tools/types";
 
-var userId = await getUserSecret();
+var userId = await getUserId();
 
-document.querySelector<HTMLDivElement>("#bannerDiv")!.append(
-  await createBanner(userId),
-);
+var bannerDiv = document.querySelector<HTMLDivElement>("#bannerDiv")!;
+var shelfDiv = document.querySelector<HTMLDivElement>("#shelfDiv")!;
+var addBookButtonDiv = document.querySelector<HTMLDivElement>("#addBookButtonDiv")!;
 
-var contentDiv = document.querySelector<HTMLDivElement>("#contentDiv")!;
+bannerDiv.append(await createBanner(userId))
 
 if (userId != null) {
-  var { popup, show } = await createAddBookPopup(userId);
-
-  document.body.appendChild(popup);
-
-  var addDiv = create("button", { id: "addButton", onclick: show }, [
-    create("div", { id: "addDiv" }, ["+"]),
-  ]);
-
-  contentDiv.append(addDiv);
+  addBookButtonDiv.append(await createAddBookButton(userId));
 }
 
-var books = await send("getBooks");
+var books = await send<Book[]>("getBooks");
+
+shelfDiv.append(createShelf("All Books", books));
+
+console.log(books[0]);

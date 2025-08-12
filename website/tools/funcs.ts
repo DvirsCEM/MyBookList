@@ -1,16 +1,16 @@
 import { send } from "../clientUtilities";
 
-export var getUserSecret = async (): Promise<string | null> => {
-  var userSecret = localStorage.getItem("userSecret");
-  if (userSecret == null) {
+export var getUserId = async (): Promise<string | null> => {
+  var userId = localStorage.getItem("userId");
+  if (userId == null) {
     return null;
   }
 
-  var varified = await send("verifyUser", userSecret);
+  var varified = await send("verifyUser", userId);
   if (!varified) {
-    localStorage.removeItem("userSecret");
+    localStorage.removeItem("userId");
     return null;
   }
 
-  return userSecret;
+  return userId;
 };

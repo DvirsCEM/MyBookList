@@ -1,18 +1,13 @@
-type User = {
-  id: string,
-  name: string,
-  // I have a problem that whenever I send a Book, it contains it's uploader,
-  // which contains the uploader's password!!!
-  // So do I just give up on the types?
-  // Do I edit the Respond method to exclude passwords?
+export type User = {
+  username: string,
 }
 
-type Author = {
+export type Author = {
   id: number,
   name: string,
 }
 
-type Book = {
+export type Book = {
   id: number,
   title: string,
   image: string,

@@ -20,7 +20,7 @@ export var createLogInPopup = () => {
       return;
     }
 
-    localStorage.setItem("userSecret", userId);
+    localStorage.setItem("userId", userId);
     window.location.reload();
   };
 

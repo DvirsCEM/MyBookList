@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +18,8 @@ class Program
     Console.WriteLine($"Main Page: http://localhost:{port}/website/pages/index.html");
 
     var database = new Database();
+
+    AddDefaultBooks(database);
 
     while (true)
     {
@@ -57,14 +58,14 @@ class Program
         }
         else if (request.Name == "verifyUser")
         {
-          var userSecret = request.GetParams<string>();
-          var user = database.Users.Seek(user => user.Secret == userSecret);
+          var userId = request.GetParams<string>();
+          var user = database.Users.Find(userId);
 
           request.Respond(user != null);
         }
         else if (request.Name == "getUsername")
         {
-          var userId = request.GetParams<int>();
+          var userId = request.GetParams<string>();
           var user = database.Users.Find(userId);
           if (user != null)
           {
@@ -73,20 +74,12 @@ class Program
         }
         else if (request.Name == "addBook")
         {
-          var (title, authorName, image, description, userSecret) = request.GetParams<(string, string, string, string, string)>();
+          var (title, authorName, image, description, userId) = request.GetParams<(string, string, string, string, string)>();
 
-          var author = database.Authors.Seek(author => author.Name == author.Name);
+          var author = database.Authors.Seek(author => author.Name == authorName)
+            ?? database.Authors.Add(new Author(authorName)).Entity;
 
-          if (author == null)
-          {
-            author = new Author(authorName);
-            database.Authors.Add(author);
-            database.SaveChanges();
-          }
-
-          var user = database.Users.Seek(user => user.Secret == userSecret)!;
-
-          var book = new Book(title, image, description, author.Id, user.Id);
+          var book = new Book(title, image, description, author.Id, userId);
           database.Books.Add(book);
           database.SaveChanges();
         }
@@ -95,11 +88,19 @@ class Program
           var books = database.Books.ToList();
           request.Respond(books);
         }
+        else if (request.Name == "getBook")
+        {
+          var bookId = request.GetParams<int>();
+          var book = database.Books
+            .Include(book => book.Author)
+            .Seek(book => book.Id == bookId)!;
+          request.Respond(book);
+        }
         else if (request.Name == "getFavorites")
         {
-          var userId = request.GetParams<int>();
+          var userId = request.GetParams<string>();
           var favorites = database.Favorites
-            .Where(f => f.User.Id == userId)
+            .Where(favorite => favorite.UserId == userId)
             .Select(f => f.Book)
             .ToList();
 
@@ -131,6 +132,71 @@ class Program
       }
     }
   }
+
+  static void AddBook(
+    Database database,
+    string title,
+    string authorName,
+    string imageUrl,
+    string description,
+    string userId
+    )
+  {
+    var author = database.Authors.Seek(author => author.Name == authorName)
+      ?? database.Authors.Add(new Author(authorName)).Entity;
+
+    var image = Convert.ToBase64String(System.IO.File.ReadAllBytes(imageUrl));
+
+    database.Books.Add(new Book(title, image, description, author.Id, userId));
+  }
+
+  static void AddDefaultBooks(Database database)
+  {
+    var deafultUser = database.Users.Add(new User(Guid.NewGuid().ToString(), "Defualt User", Guid.NewGuid().ToString())).Entity;
+
+    AddBook(
+      database,
+      "The Great Gatsby",
+      "F. Scott Fitzgerald",
+      "images/TheGreatGatsby.jpg",
+      "A novel set in the 1920s about the mysterious Jay Gatsby and his obsession with Daisy Buchanan.",
+      deafultUser.Id
+    );
+    AddBook(
+      database,
+      "To Kill a Mockingbird",
+      "Harper Lee",
+      "images/ToKillAMockingbird.jpg",
+      "A novel about the serious issues of racial inequality and moral growth, seen through the eyes of young Scout Finch.",
+      deafultUser.Id
+    );
+    AddBook(
+      database,
+      "1984",
+      "George Orwell",
+      "images/1984.jpg",
+      "A dystopian novel that explores the dangers of totalitarianism and extreme political ideology.",
+      deafultUser.Id
+    );
+    AddBook(
+      database,
+      "Pride and Prejudice",
+      "Jane Austen",
+      "images/PrideAndPrejudice.jpg",
+      "A romantic novel that critiques the British landed gentry at the end of the 18th century.",
+      deafultUser.Id
+    );
+    AddBook(
+      database,
+      "The Catcher in the Rye",
+      "J.D. Salinger",
+      "images/TheCatcherInTheRye.jpg",
+      "A novel about teenage angst and alienation, narrated by the iconic character Holden Caulfield.",
+      deafultUser.Id
+    );
+
+    database.SaveChanges();
+  }
 }
 
 
@@ -142,33 +208,33 @@ class Database() : DbCore("database")
   public DbSet<Favorite> Favorites { get; set; } = default!;
 }
 
-class User(string username, string password, string secret)
+class User(string id, string username, string password)
 {
-  public int Id { get; set; } = default!;
+  [JsonIgnore] public string Id { get; set; } = id;
   public string Username { get; set; } = username;
   [JsonIgnore] public string Password { get; set; } = password;
-  [JsonIgnore] public string Secret { get; set; } = secret; 
 }
 
-class Book(
-  string title,
-  string image,
-  string description,
-  int authorId,
-  int uploaderId
-)
+class Book
 {
-  public int Id { get; set; } = default!;
-  public string Title { get; set; } = title;
-  public string Image { get; set; } = image;
-  public string Description { get; set; } = description;
+    public int Id { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public string Image { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public Author Author { get; set; } = default!;
+    public string UserId { get; set; } = default!;
+    public User User { get; set; } = default!;
 
-  public int AuthorId { get; set; } = authorId;
-  public Author Author { get; set; } = default!;
-
-  public int UploaderId { get; set; } = uploaderId;
-  public User Uploader { get; set; } = default!;
+    public Book(string title, string image, string description, Author author, User user)
+    {
+        Title = title;
+        Image = image;
+        Description = description;
+        Author = author;
+        User = user;
+    }
 }
+
 
 class Author(string name)
 {

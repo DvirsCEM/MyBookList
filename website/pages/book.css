@@ -1,0 +1,28 @@
+#contentDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+#coverImg {
+  width: 250px;
+  border-radius: 15px;
+  box-shadow: 1px 0px 15px 0px rgba(0, 0, 0, 0.25);
+  -webkit-user-drag: none;
+}
+
+#favoriteInput {
+  margin-top: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+#titleH1 {
+  margin-bottom: 0px;
+}
+
+#authorH2 {
+  margin-bottom: 0px;
+}

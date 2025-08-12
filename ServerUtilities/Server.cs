@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace Project.ServerUtilities;
@@ -40,11 +42,12 @@ public class Server
     while (true)
     {
       _context?.Response.Close();
-      _context = _listener.GetContext();
-      var path = GetPath();
-      var type = GetRequestType();
+      _context = _listener.GetContext()!;
+      var isCustom = _context.Request.Headers["X-Custom-Request"] == "true";
+      var path = GetPath(_context);
+      var ext = Path.GetExtension(path).ToLowerInvariant();
 
-      if (type == "custom")
+      if (isCustom)
       {
         return new Request(_context, path);
       }
@@ -57,22 +60,34 @@ public class Server
       if (!File.Exists(path))
       {
         _context.Response.StatusCode = 404;
-        if (type == "document")
+        if (_context.Request.AcceptTypes?.Contains("text/html") ?? false)
         {
           path = "website/pages/404.html";
+          _context.Response.ContentType = "text/html";
         }
         else
         {
           continue;
         }
       }
-
-      _context.Response.ContentType = GetRequestType() switch
+      else
       {
-        "document" => "text/html; charset=utf-8",
-        "script" => "application/javascript",
-        _ => "",
-      };
+        _context.Response.ContentType =
+           ext switch
+           {
+             ".html" => "text/html",
+             ".js" => "application/javascript",
+             ".css" => "text/css",
+             ".json" => "application/json",
+             ".png" => "image/png",
+             ".jpg" => "image/jpeg",
+             ".jpeg" => "image/jpeg",
+             ".gif" => "image/gif",
+             ".svg" => "image/svg+xml",
+             ".ico" => "image/x-icon",
+             _ => "text/html",
+           };
+      }
 
       _context.Response.Headers.Add("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
       _context.Response.Headers.Add("Pragma", "no-cache");
@@ -83,33 +98,20 @@ public class Server
     }
   }
 
-  string GetRequestType()
+  static string GetPath(HttpListenerContext context)
   {
-    var secFetchDest = _context!.Request.Headers["Sec-Fetch-Dest"];
-    if (secFetchDest != null && secFetchDest != "empty")
-    {
-      return secFetchDest;
-    }
-
-    var isCustomRequest = _context.Request.Headers["X-Custom-Request"];
-    if (isCustomRequest != null && isCustomRequest == "true")
-    {
-      return "custom";
-    }
-
-    return "empty";
-  }
-
-  string GetPath()
-  {
-    var context = _context!;
-
     var path = context.Request.Url!.AbsolutePath[1..];
 
-    if (GetRequestType() == "script" &&
-      !path.EndsWith(".js"))
+    var ext = Path.GetExtension(path).ToLowerInvariant();
+
+    if (ext == "")
     {
-      path += ".js";
+      var referer = context.Request.UrlReferrer?.ToString();
+      var refererExt = Path.GetExtension(referer)?.ToLowerInvariant();
+      if (referer != null && (refererExt == ".js" || refererExt == ""))
+      {
+        path += ".js";
+      }
     }
 
     return path;

@@ -30,10 +30,10 @@ export function create<
 /**
  * Applies a CSS style to an HTML element by fetching the CSS from a given path.
  * @param cssPath - The path to the CSS file to be applied.
- * @param element - The HTML element to which the CSS will be applied.
+ * @param elements - The HTML elements to which the CSS will be applied.
  * @returns A wrapper element containing the styled element.
  */
-export function style(cssPath: string, element: HTMLElement): HTMLElement {
+export function style(cssPath: string, ...elements: HTMLElement[]): HTMLElement {
   const wrapper = document.createElement("div");
   wrapper.style.display = "none";
   const shadow = wrapper.attachShadow({ mode: "open" });
@@ -44,6 +44,6 @@ export function style(cssPath: string, element: HTMLElement): HTMLElement {
       shadow.prepend(create("style", { textContent: cssText }));
       wrapper.style.display = "block";
     });
-  shadow.appendChild(element);
+  shadow.append(...elements);
   return wrapper;
 }

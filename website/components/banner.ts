@@ -4,17 +4,15 @@ import { createLogInPopup } from "./logInPopup";
 import { createSignUpPopup } from "./signUpPopup";
 
 export var createBanner = async (userId: string | null) => {
-  var banner = create("div", { id: "banner" }, [
-    create("a", { id: "indexAnchor", href: "index.html" }, [
-      create("h1", { id: "titleH1" }, ["MyBookList"]),
-    ]),
-    create("div", { id: "userDiv" }),
-  ]);
-
-  var userDiv = banner.querySelector("#userDiv")!;
+  var userDiv = create("div", { id: "userDiv" });
 
   if (userId != null) {
     var username = await send("getUsername", userId);
+
+    var logOut = () => {
+      localStorage.removeItem("userId");
+      location.href = "/website/pages/index.html";
+    };
 
     userDiv.append(
       create("div", {}, [`Welcome, ${username}!`]),
@@ -35,10 +33,11 @@ export var createBanner = async (userId: string | null) => {
     );
   }
 
-  return style("/website/components/banner.css", banner);
-};
-
-var logOut = () => {
-  localStorage.removeItem("userSecret");
-  location.href = "/website/pages/index.html";
+  return style("/website/components/banner.css",
+    create("div", { id: "banner" }, [
+      create("a", { id: "indexAnchor", href: "index.html" }, [
+        create("h1", { id: "titleH1" }, ["MyBookList"]),
+      ]),
+      userDiv
+    ]));
 };

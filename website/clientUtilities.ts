@@ -1,4 +1,9 @@
 /**
+ * Search parameters utility for the client-side.
+ */
+export var UrlSearchParams = Object.fromEntries(new URLSearchParams(location.search).entries()) as Record<string, string>;
+
+/**
  * Sends a POST request to the specified path with the provided parameters.
  * @param path - The endpoint path to which the request is sent.
  * @param params - The parameters to be sent in the request body. Defaults to an empty array.

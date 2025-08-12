@@ -1,14 +1,14 @@
 import { send } from "../clientUtilities";
 import { createBanner } from "../components/banner";
-import { getUserSecret } from "../tools/funcs";
+import { getUserId } from "../tools/funcs";
 
-var userId = await getUserSecret();
+var userId = await getUserId();
 if (userId == null) {
   location.href = "/website/pages/index.html";
 }
 
 document.querySelector<HTMLDivElement>("#bannerDiv")!
-  .append(await createBanner());
+  .append(await createBanner(userId));
 
 var titleInput = document.querySelector<HTMLInputElement>("#titleInput")!;
 var authorInput = document.querySelector<HTMLInputElement>("#authorInput")!;

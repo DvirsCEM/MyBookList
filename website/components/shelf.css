@@ -1,0 +1,9 @@
+#titleH2 {
+  margin-left: 15px;
+}
+
+#previewsDiv {
+  display: flex;
+  gap: 5px;
+  margin-left: 20px;
+}
