@@ -8,6 +8,15 @@
     <RootNamespace>Project</RootNamespace>
   </PropertyGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="GenerationUtilities/GenerationUtilities.csproj"
+                  OutputItemType="Analyzer"
+                  ReferenceOutputAssembly="false" />
+    <Compile Remove="GenerationUtilities\**\*.cs" />
+    <Compile Include="GenerationUtilities\Attributes.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.7" />
   </ItemGroup>
