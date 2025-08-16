@@ -14,15 +14,14 @@ items:
   - .vscode/launch.json
   
   # Core utility files
-  - DatabaseUtilities/DatabaseCore.cs
-  - LoggingUtilities/Log.cs
+  - DatabaseUtilities/
+  - LoggingUtilities/
   - ServerUtilities/
   - GeneralUtilities/
   - GenerationUtilities/
   
   # Website utilities
-  - website/clientUtilities.ts
-  - website/componentUtilities.ts
+  - website/
   
   # Project configuration files
   - .gitignore
