@@ -1,7 +1,7 @@
 /**
  * Search parameters utility for the client-side.
  */
-export var UrlSearchParams = Object.fromEntries(new URLSearchParams(location.search).entries()) as Record<string, string>;
+export var urlSearchParams = Object.fromEntries(new URLSearchParams(location.search).entries()) as Record<string, string>;
 
 /**
  * Sends a POST request to the specified path with the provided parameters.

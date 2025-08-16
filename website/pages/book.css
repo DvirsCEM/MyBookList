@@ -22,6 +22,38 @@
   gap: 15px;
 }
 
+#rateDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+img {
+  display: block;
+}
+
+.rateButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+  margin: 0px;
+}
+
+#cancelButton {
+  transform: translateY(2px);
+}
+
+.rateImg {
+  width: 25px;
+
+transition: transform 0.2s ease;
+}
+
+.rateImg:hover {
+  transform: translateY(-2px);
+}
+
 #rightDiv {
   padding-top: 50px;
 }
@@ -29,7 +61,7 @@
 #favoriteDiv {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 #coverImg {
@@ -48,6 +80,15 @@
   margin-bottom: 0px;
 }
 
-#authorH2 {
+/* #authorH2 {
   margin-bottom: 0px;
+} */
+
+#averageDiv {
+  display: flex;
+  gap: 10px;
+}
+
+.bigStarImg {
+  width: 40px;
 }

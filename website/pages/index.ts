@@ -20,5 +20,3 @@ if (userId != null) {
 var books = await send<Book[]>("getBooks");
 
 shelfDiv.append(createShelf("All Books", books));
-
-console.log(books[0]);

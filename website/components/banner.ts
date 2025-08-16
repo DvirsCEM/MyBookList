@@ -33,11 +33,21 @@ export var createBanner = async (userId: string | null) => {
     );
   }
 
-  return style("/website/components/banner.css",
-    create("div", { id: "banner" }, [
-      create("a", { id: "indexAnchor", href: "index.html" }, [
-        create("h1", { id: "titleH1" }, ["MyBookList"]),
-      ]),
-      userDiv
-    ]));
-};
+  var spacer = create("div", { id: "spacer" });
+
+  var banner = create("div", { id: "banner" }, [
+    create("a", { id: "indexAnchor", href: "index.html" }, [
+      create("h1", { id: "titleH1" }, ["MyBookList"]),
+    ]),
+    userDiv
+  ]);
+
+  new ResizeObserver(({ 0: entry }, observer) => {
+    if (entry.contentRect.height > 0) {
+      spacer.style.height = `${entry.contentRect.height}px`;
+      observer.disconnect();
+    }
+  }).observe(banner);
+
+  return style("/website/components/banner.css", spacer, banner);
+}
