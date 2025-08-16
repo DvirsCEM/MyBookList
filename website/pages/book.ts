@@ -39,7 +39,6 @@ for (var i = 1; i <= 5; i++) {
   averageDiv.append(create("img", { className: "bigStarImg", src: starImgSrc }));
 }
 
-
 if (userId != null) {
   // Handle favorite stuff
   // =====================

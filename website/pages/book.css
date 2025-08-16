@@ -54,10 +54,6 @@ transition: transform 0.2s ease;
   transform: translateY(-2px);
 }
 
-#rightDiv {
-  padding-top: 50px;
-}
-
 #favoriteDiv {
   display: flex;
   align-items: center;
