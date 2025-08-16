@@ -1,0 +1,10 @@
+.vscode
+DatabaseUtilities
+LoggingUtilities
+ServerUtilities
+GeneralUtilities
+GenerationUtilities
+website
+.gitignore
+Project.csproj
+tsconfig.json
