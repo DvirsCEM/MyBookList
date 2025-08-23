@@ -9,7 +9,7 @@
     "website/clientUtilities.ts": true,
     "website/componentUtilities.ts": true,
     ".gitignore": true,
-    ".sync-config.yml": true,
+    ".sync-config": true,
     "README.md": true,
     "tsconfig.json": true,
     "**/*.js": true,
