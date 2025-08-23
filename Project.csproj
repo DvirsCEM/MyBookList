@@ -7,8 +7,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Project</RootNamespace>
   </PropertyGroup>
-
-
+  
   <ItemGroup>
     <ProjectReference Include="GenerationUtilities/GenerationUtilities.csproj"
                   OutputItemType="Analyzer"
