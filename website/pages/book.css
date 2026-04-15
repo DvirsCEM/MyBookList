@@ -1,0 +1,75 @@
+#bookDiv {
+  display: flex;
+  max-width: 600px;
+  gap: 24px;
+  align-items: flex-start;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+#leftDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+#bookImg {
+  width: 200px;
+  border-radius: 6px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+#favoriteDiv {
+  display: flex;
+  gap: 10px;
+}
+
+#favoriteInput {
+  transform: scale(2);
+  /* height: 20px; */
+}
+
+#personalRatingDiv {
+  display: flex;
+  gap: 5px;
+}
+
+.cancelImg {
+  height: 30px;
+  cursor: pointer;
+  transform: translateY(2px);
+}
+
+.personalStarImg {
+  height: 30px;
+  cursor: pointer;
+}
+
+#rightDiv {
+  max-width: 720px;
+}
+
+#bookTitleH1 {
+  margin-bottom: 5px;
+}
+
+#authorA {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+#globalRatingDiv {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.globalStarImg {
+  height: 30px;
+}
+
+#bookDescriptionDiv {
+  margin: 0;
+  line-height: 1.5;
+}

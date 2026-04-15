@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/website/styles/general.css" />
+    <link rel="stylesheet" href="signUp.css" />
+    <link rel="stylesheet" href="add.css" />
+    <title>Add Book</title>
+  </head>
+
+  <body>
+    <div id="boxDiv">
+      <h1>Add Book</h1>
+
+      <table>
+        <tr>
+          <td>Title:</td>
+          <td><input id="titleInput" /></td>
+        </tr>
+        <tr>
+          <td>Author:</td>
+          <td>
+            <input id="authorInput" list="authorOptions" />
+            <datalist id="authorOptions"></datalist>
+          </td>
+        </tr>
+        <tr>
+          <td>Cover URL:</td>
+          <td><input id="coverUrlInput" type="url" /></td>
+        </tr>
+        <tr>
+          <td>Description:</td>
+          <td><textarea id="descriptionTextarea" rows="6"></textarea></td>
+        </tr>
+      </table>
+      <br />
+      <button id="submitButton">Submit</button>
+      <br />
+      <div id="errorDiv"></div>
+    </div>
+
+    <script type="module" src="add.js"></script>
+  </body>
+</html>

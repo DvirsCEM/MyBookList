@@ -1,0 +1,10 @@
+#authorBooksH2 {
+  margin: 20px;
+}
+
+#authorBooksDiv {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

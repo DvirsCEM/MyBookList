@@ -1,0 +1,62 @@
+@font-face {
+  font-family: "Rubik";
+  src: url("/website/fonts/Rubik-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MAL";
+  src: url("/website/fonts/AGRevueCyr%20Roman%20Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+body {
+  margin: 0px;
+  font-family: "Rubik";
+}
+
+.barDiv {
+  background: #edf1f5;
+  padding: 8px 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.barLeftA {
+  color: #003f75;
+  font-family: "MAL";
+  font-size: 30px;
+  margin-top: 8px;
+  text-decoration: none;
+}
+
+.barRightDiv {
+  color: #003f75;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.previewA {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+}
+
+.previewImg {
+  height: 200px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.18s ease;
+}
+
+.previewA:hover .previewImg {
+  transform: translateY(-6px);
+}
