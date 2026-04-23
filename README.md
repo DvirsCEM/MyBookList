@@ -16,7 +16,7 @@ bun add -g typescript
 ```
 - תנו לתוכנה גישה לפורט הרצוי (במקרה שלנו, פורט 5000) בעזרת פתיחת שורת המשימות כמנהל והרצת הפקודה:
 ```
-netsh http add urlacl url=http://*:5000/ user=Everyone
+netsh http add urlacl url=http://*:5000/ user=Everyone & netsh advfirewall firewall add rule name="_" dir=in action=allow protocol=TCP localport=5000
 ```
 
 ## יצירת פרוייקט חדש
